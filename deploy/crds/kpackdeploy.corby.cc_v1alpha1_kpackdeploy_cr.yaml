@@ -7,7 +7,7 @@ spec:
   imageName: boot-demo
   target:
     git:
-      accessToken: 21360d30f3064d5afc72fa8776bffd31fb173fd1
+      accessToken: <access token>
       deploymentFile: deployment.yaml
       paths:
         - dev

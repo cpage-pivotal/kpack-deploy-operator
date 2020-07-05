@@ -21,15 +21,24 @@ type KpackDeploySpec struct {
 }
 
 type Target struct {
+	// Git describes the location of a repo for storing deployment files in a GitOps environment
 	Git Git `json:"git"`
 }
 
+// +kubebuilder:validation:Enum=commit;pullrequest
+type WriteMethod string
+
 type Git struct {
+	// URL of the Git Repo
 	Url string `json:"url"`
+	// Directories of the supported environments, as per Kustomize layout
 	Paths []string `json:"paths"`
+	// Filename of the deployment YAML
 	DeploymentFile string `json:"deploymentFile"`
+	// Git Access token
 	AccessToken string `json:"accessToken"`
-	WriteMethod string `json:"writeMethod"`
+	// Method of writing changes (commit, pullrequest)
+	WriteMethod WriteMethod `json:"writeMethod"`
 }
 
 // KpackDeployStatus defines the observed state of KpackDeploy

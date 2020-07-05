@@ -40,18 +40,29 @@ spec:
                   that will control deployment in the target environments
                 properties:
                   git:
+                    description: Git describes the location of a repo for storing
+                      deployment files in a GitOps environment
                     properties:
                       accessToken:
+                        description: Git Access token
                         type: string
                       deploymentFile:
+                        description: Filename of the deployment YAML
                         type: string
                       paths:
+                        description: Directories of the supported environments, as
+                          per Kustomize layout
                         items:
                           type: string
                         type: array
                       url:
+                        description: URL of the Git Repo
                         type: string
                       writeMethod:
+                        description: Method of writing changes (commit, pullrequest)
+                        enum:
+                        - commit
+                        - pullrequest
                         type: string
                     required:
                     - accessToken
