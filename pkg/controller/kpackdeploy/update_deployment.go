@@ -1,6 +1,6 @@
 package kpackdeploy
 
-func updateDeployment(latestImage, oldContent string) (string, error) {
-	// TODO implement
-	return "", nil
+func updateDeployment(latestImage, oldContent string) (newContent string, err error) {
+	// Locate image: tag and replace value with supplied string
+	return "It worked, SUCKAS!", nil
 }

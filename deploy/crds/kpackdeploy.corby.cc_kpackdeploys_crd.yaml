@@ -46,6 +46,9 @@ spec:
                       accessToken:
                         description: Git Access token
                         type: string
+                      branch:
+                        description: Branch to commit to
+                        type: string
                       deploymentFile:
                         description: Filename of the deployment YAML
                         type: string
@@ -66,6 +69,7 @@ spec:
                         type: string
                     required:
                     - accessToken
+                    - branch
                     - deploymentFile
                     - paths
                     - url

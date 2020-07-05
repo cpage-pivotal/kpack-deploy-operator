@@ -28,11 +28,16 @@ type Target struct {
 // +kubebuilder:validation:Enum=commit;pullrequest
 type WriteMethod string
 
+const GIT_COMMIT WriteMethod = "commit"
+const GIT_PULL_REQUEST WriteMethod = "pullrequest"
+
 type Git struct {
 	// URL of the Git Repo
 	Url string `json:"url"`
 	// Directories of the supported environments, as per Kustomize layout
 	Paths []string `json:"paths"`
+	// Branch to commit to
+	Branch string `json:"branch"`
 	// Filename of the deployment YAML
 	DeploymentFile string `json:"deploymentFile"`
 	// Git Access token

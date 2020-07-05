@@ -13,6 +13,7 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
+
 	//"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
@@ -100,7 +101,10 @@ func (r *ReconcileKpackDeploy) Reconcile(request reconcile.Request) (reconcile.R
 	}
 
 	reqLogger.Info("Found Image!", "LatestImage", foundBuild.Status.LatestImage)
-	writeToGitTarget(foundBuild.Status.LatestImage, instance.Spec.Target.Git)
+	err = writeToGitTarget(foundBuild.Status.LatestImage, instance.Spec.Target.Git)
+	if err != nil {
+		reqLogger.Error(err, "Could not complete Git Request", "Target.Git", instance.Spec.Target.Git)
+	}
 
 	return reconcile.Result{}, nil
 }
