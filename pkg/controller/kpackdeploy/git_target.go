@@ -16,9 +16,9 @@ import (
 const branchName = "master"
 
 func writeToGitTarget(latestImage string, git kpackdeployv1alpha1.Git) error {
-	if git.WriteMethod == "pullrequest" {
+	if git.WriteMethod == kpackdeployv1alpha1.GIT_PULL_REQUEST {
 		return errors.New("write method 'pullrequest' is not supported yet")
-	} else if git.WriteMethod != "commit" {
+	} else if git.WriteMethod != kpackdeployv1alpha1.GIT_COMMIT {
 		return fmt.Errorf("write method '%s' is not supported", git.WriteMethod)
 	}
 
