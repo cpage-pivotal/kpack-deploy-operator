@@ -1,0 +1,86 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: kpackdeploys.kpackdeploy.corby.cc
+spec:
+  group: kpackdeploy.corby.cc
+  names:
+    kind: KpackDeploy
+    listKind: KpackDeployList
+    plural: kpackdeploys
+    singular: kpackdeploy
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: KpackDeploy is the Schema for the kpackdeploys API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: KpackDeploySpec defines the desired state of KpackDeploy
+            properties:
+              imageName:
+                description: ImageName refers to the kpack Image in this namespace
+                  that will be deployed to target environments
+                type: string
+              target:
+                description: Target specifies the location of the K8S Deployment YAML
+                  that will control deployment in the target environments
+                properties:
+                  git:
+                    properties:
+                      accessToken:
+                        type: string
+                      deploymentFile:
+                        type: string
+                      paths:
+                        items:
+                          type: string
+                        type: array
+                      url:
+                        type: string
+                      writeMethod:
+                        type: string
+                    required:
+                    - accessToken
+                    - deploymentFile
+                    - paths
+                    - url
+                    - writeMethod
+                    type: object
+                required:
+                - git
+                type: object
+            required:
+            - imageName
+            - target
+            type: object
+          status:
+            description: KpackDeployStatus defines the observed state of KpackDeploy
+            properties:
+              deploymentImages:
+                additionalProperties:
+                  type: string
+                description: Deployment Images are the container images named in the
+                  K8S Deployment descriptor for each configured target environment
+                type: object
+            required:
+            - deploymentImages
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

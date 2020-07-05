@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kpack-deploy-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: kpack-deploy-operator
+  template:
+    metadata:
+      labels:
+        name: kpack-deploy-operator
+    spec:
+      serviceAccountName: kpack-deploy-operator
+      containers:
+        - name: kpack-deploy-operator
+          # Replace this with the built image name
+          image: REPLACE_IMAGE
+          command:
+          - kpack-deploy-operator
+          imagePullPolicy: Always
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "kpack-deploy-operator"

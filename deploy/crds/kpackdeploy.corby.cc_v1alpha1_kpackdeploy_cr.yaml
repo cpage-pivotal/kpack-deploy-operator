@@ -1,0 +1,15 @@
+apiVersion: kpackdeploy.corby.cc/v1alpha1
+kind: KpackDeploy
+metadata:
+  name: example-kpackdeploy
+spec:
+  # Add fields here
+  imageName: boot-demo
+  target:
+    git:
+      accessToken: 21360d30f3064d5afc72fa8776bffd31fb173fd1
+      deploymentFile: deployment.yaml
+      paths:
+        - dev
+      url: https://github.com/cpage-pivotal/sof-hello-config
+      writeMethod: commit
