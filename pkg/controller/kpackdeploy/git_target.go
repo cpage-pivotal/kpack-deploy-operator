@@ -12,9 +12,6 @@ import (
 	kpackdeployv1alpha1 "github.com/cpage-pivotal/kpack-deploy-operator/pkg/apis/kpackdeploy/v1alpha1"
 )
 
-// maybe add to configuration file??
-const branchName = "master"
-
 func writeToGitTarget(latestImage string, git kpackdeployv1alpha1.Git) error {
 	if git.WriteMethod == kpackdeployv1alpha1.GIT_PULL_REQUEST {
 		return errors.New("write method 'pullrequest' is not supported yet")
@@ -31,7 +28,7 @@ func writeToGitTarget(latestImage string, git kpackdeployv1alpha1.Git) error {
 	client := github.NewClient(tc)
 
 	owner, repo := getOwnerAndRepo(git.Url)
-	branch, _, err := client.Repositories.GetBranch(ctx, owner, repo, branchName)
+	branch, _, err := client.Repositories.GetBranch(ctx, owner, repo, git.Branch)
 	if err != nil {
 		return err
 	}
@@ -112,7 +109,7 @@ pathLoop:
 		return err
 	}
 
-	ref, _, err := client.Git.GetRef(ctx, owner, repo, "heads/"+branchName)
+	ref, _, err := client.Git.GetRef(ctx, owner, repo, "heads/"+git.Branch)
 	if err != nil {
 		return err
 	}
