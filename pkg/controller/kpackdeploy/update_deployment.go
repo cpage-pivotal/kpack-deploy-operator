@@ -1,6 +1,9 @@
 package kpackdeploy
 
+import "regexp"
+
+var imageTagRegex = regexp.MustCompile("image: .+")
+
 func updateDeployment(latestImage, oldContent string) (newContent string, err error) {
-	// Locate image: tag and replace value with supplied string
-	return "It worked, SUCKAS!", nil
+	return imageTagRegex.ReplaceAllString(oldContent, "image: "+latestImage), nil
 }
