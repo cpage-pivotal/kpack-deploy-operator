@@ -47,6 +47,7 @@ func writeToGitTarget(latestImage string, git kpackdeployv1alpha1.Git) error {
 	}
 
 	newTreeEntries := make([]*github.TreeEntry, 0, len(git.Paths))
+pathLoop:
 	for _, entry := range baseTree.Entries {
 		// this logic will not work if a git.Path is not a direct subfolder of the repository root
 		if stringSliceContains(git.Paths, *entry.Path) &&
@@ -81,7 +82,7 @@ func writeToGitTarget(latestImage string, git kpackdeployv1alpha1.Git) error {
 						SHA:  newBlob.SHA,
 					})
 
-					break
+					continue pathLoop
 				}
 			}
 			return errors.New("missing deployment file(s)")
